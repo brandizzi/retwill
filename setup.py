@@ -8,7 +8,7 @@ except ImportError:
 #### retwill info.
 
 setup(name = 'retwill',
-      version = '1.0.0',
+      version = '1.0.1dev',
       download_url = 'https://bitbucket.org/brandizzi/retwill/downloads/retwill-1.0.0.tar.gz',
       description = "retwill - fork of C. Titus Brown's twill Web browsing language",
       author = 'C. Titus Brown',
@@ -45,7 +45,7 @@ Web pages or grabbing data from password-protected sites automatically.
       obsoletes = 'twill',
       test_suite = 'nose.collector',
       install_requires = [
-                'lxml', 'nose', 'pyparsing',
-                'beautifulsoup', 'wsgi_intercept'],
-      tests_require =  ['quixote'],
+      		'lxml', 'pyparsing', 'beautifulsoup', 'wsgi_intercept'
+      ],
+      tests_require =  ['quixote', 'nose'],
       )
