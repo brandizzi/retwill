@@ -33,16 +33,10 @@ class TwillBrowser(object):
     """
     def __init__(self):
         #
-        # create special link/forms parsing code to run tidy on HTML first.
-        #
-
-        factory = ConfigurableParsingFactory()
-	
-        #
         # Create the mechanize browser.
         #
         
-        b = mechanize_intercept.Browser(history=HistoryStack(), factory=factory)
+        b = mechanize.Browser(history=HistoryStack())
 
         self._browser = b
         

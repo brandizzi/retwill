@@ -303,27 +303,18 @@ class ConfigurableParsingFactory(mechanize.Factory):
     """
     
     def __init__(self):
-        self.basic_factory = mechanize.DefaultFactory()
-        self.soup_factory = mechanize.RobustFactory()
+        self.factory = mechanize.Factory()
 
         self.set_response(None)
 
     def set_request_class(self, request_class):
-        self.basic_factory.set_request_class(request_class)
-        self.soup_factory.set_request_class(request_class)
+        self.factory.set_request_class(request_class)
 
     def set_response(self, response):
         if not response:
-            self.factory = None
             self._orig_html = self._html = self._url = None
             return
 
-        ###
-
-        if self.use_BS():
-            self.factory = self.soup_factory
-        else:
-            self.factory = self.basic_factory
         cleaned_response = self._cleanup_html(response)
         self.factory.set_response(cleaned_response)
 
