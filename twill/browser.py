@@ -17,6 +17,9 @@ from .utils import print_form, \
      ResultWrapper, unique_match, HistoryStack
 from .errors import TwillException
 
+# BeautifulSoup4 imports
+from bs4 import UnicodeDammit
+
 logger = logconfig.logger
 
 #
@@ -66,6 +69,8 @@ class TwillBrowser(object):
 
         # callables to be called after each page load.
         self._post_load_hooks = []
+
+        # Expected encoding from pages
 
     def set_handle_equiv(self, *args, **kwargs):
         self._browser.set_handle_equiv(*args, **kwargs)
@@ -530,7 +535,8 @@ There are %d cookie(s) in the cookiejar.
 infinite refresh loop discovered; aborting.
 Try turning off acknowledge_equiv_refresh...""")
 
-        self.result = ResultWrapper(code, r.geturl(), str(r.read(), 'utf-8'))
+        unicode_content = UnicodeDammit(r.read())
+        self.result = ResultWrapper(code, r.geturl(), unicode_content.unicode_markup)
 
         #
         # Now call all of the post load hooks with the function name.
