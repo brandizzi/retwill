@@ -10,7 +10,7 @@ class TwillAssertionError(TwillException):
     """
     pass
 
-class TwillNameError(TwillException):
+class TwillNameError(TwillException, NameError):
     """
     Error to raise when an unknown command is called.
     """
