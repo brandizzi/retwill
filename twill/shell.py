@@ -96,7 +96,7 @@ class TwillCommandLoop(Singleton, cmd.Cmd):
     Note: most of the do_ and help_ functions are dynamically created
     by the metaclass.
     """
-    def init(self, **kw):
+    def __init__(self, **kw):
         if 'stdin' in kw:
             cmd.Cmd.__init__(self, None, stdin=kw['stdin'])
             self.use_rawinput = False
