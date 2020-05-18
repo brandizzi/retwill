@@ -280,7 +280,7 @@ def run_tidy(html):
                                        stderr=subprocess.PIPE, bufsize=0,
                                        shell=False)
         
-            (stdout, stderr) = process.communicate(html)
+            (stdout, stderr) = process.communicate(html.encode())
 
             clean_html = stdout
             errors = stderr
