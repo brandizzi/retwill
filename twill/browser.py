@@ -10,7 +10,6 @@ from twill import logconfig
 # wwwsearch imports
 import mechanize
 from mechanize import BrowserStateError, LinkNotFoundError
-from wsgi_intercept import mechanize_intercept
 
 # twill package imports
 from .utils import print_form, \

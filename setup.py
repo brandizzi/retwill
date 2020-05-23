@@ -45,7 +45,7 @@ Web pages or grabbing data from password-protected sites automatically.
       obsoletes = 'twill',
       test_suite = 'nose.collector',
       install_requires = [
-      		'lxml', 'pyparsing', 'BeautifulSoup4', 'wsgi_intercept'
+      		'lxml', 'pyparsing', 'BeautifulSoup4'
       ],
       tests_require =  ['quixote', 'nose'],
       )
