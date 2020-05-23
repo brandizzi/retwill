@@ -178,7 +178,8 @@ def execute_file(filename, **kw):
 
     kw['source'] = filename
 
-    _execute_script(inp, **kw)
+    with inp:
+        _execute_script(inp, **kw)
     
 def _execute_script(inp, **kw):
     """

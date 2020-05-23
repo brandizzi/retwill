@@ -42,7 +42,7 @@ def execute_twill_script(filename, inp=None, initial_url=None):
         inp_fp = StringIO(inp)
         old, sys.stdin = sys.stdin, inp_fp
 
-    scriptfile = os.path.join(testdir, filename)
+    script_path = os.path.join(testdir, filename)
     try:
         twill.execute_file(filename, initial_url=initial_url)
     finally:
@@ -52,9 +52,11 @@ def execute_twill_script(filename, inp=None, initial_url=None):
 def execute_twill_shell(filename, inp=None, initial_url=None,
                         fail_on_unknown=False):
     # use filename as the stdin *for the shell object only*
-    scriptfile = os.path.join(testdir, filename)
-    
-    cmd_inp = open(scriptfile).read()
+    script_path = os.path.join(testdir, filename)
+
+    cmd_inp = ''
+    with open(script_path) as script_file:
+        cmd_inp = script_file.read()
     cmd_inp += '\nquit\n'
     cmd_inp = StringIO(cmd_inp)
 
