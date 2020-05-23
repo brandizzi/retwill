@@ -17,7 +17,7 @@ def showvar(which):
      d = global_dict.copy()
      d.update(local_dict)
      
-     print d.get(str(which))
+     print(d.get(str(which)))
 
 def split(what):
      """

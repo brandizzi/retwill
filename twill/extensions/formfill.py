@@ -90,7 +90,7 @@ def fv_multi_match(formname, regexp, *values):
                 continue
             try:
                 twill.utils.set_form_control_value(control, values[n])
-            except IndexError, e:
+            except IndexError as e:
                 twill.utils.set_form_control_value(control, values[-1])
             n += 1
 

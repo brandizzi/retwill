@@ -1,7 +1,7 @@
 import os
 
-import twilltestlib
-import twilltestserver
+from . import twilltestlib
+from . import twilltestserver
 
 def setup(package):
     twilltestlib.cd_testdir()

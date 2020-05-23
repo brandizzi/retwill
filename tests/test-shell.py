@@ -3,8 +3,8 @@ Run through the test-basic script, but this time from the command interpreter.
 """
 
 import sys, os
-import twilltestlib
-from cStringIO import StringIO
+from . import twilltestlib
+from io import StringIO
 import twill.shell
 
 def setup_module():

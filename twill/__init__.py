@@ -49,11 +49,11 @@ wwwsearchlib = os.path.join(thisdir, 'other_packages')
 sys.path.insert(0, wwwsearchlib)
 
 # the two core components of twill:
-from shell import TwillCommandLoop
-from parse import execute_file, execute_string
+from .shell import TwillCommandLoop
+from .parse import execute_file, execute_string
 
 # convenience function or two...
-from commands import get_browser
+from .commands import get_browser
 
 def get_browser_state():
     import warnings
@@ -63,7 +63,7 @@ get_browser_state is deprecated; use 'twill.get_browser() instead.
     return get_browser()
 
 # initialize global dict
-import namespaces
+from . import namespaces
 namespaces.init_global_dict()
 
 from wsgi_intercept import add_wsgi_intercept, remove_wsgi_intercept

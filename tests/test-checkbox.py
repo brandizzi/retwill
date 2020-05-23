@@ -1,4 +1,4 @@
-import twilltestlib
+from . import twilltestlib
 import twill
 from twill import namespaces, commands
 from twill.errors import TwillAssertionError

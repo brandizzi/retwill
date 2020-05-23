@@ -18,7 +18,7 @@ twill multiprocess execution system.
 import sys, os, time
 from twill import execute_file
 from optparse import OptionParser
-from cPickle import load, dump
+from pickle import load, dump
 
 ###
 # make sure that the current working directory is in the path.  does this
@@ -81,7 +81,7 @@ for i in range(0, options.processes):
 failed = False
 
 if not is_parent:
-    print '[twill-fork: pid %d : executing %d times]' % (os.getpid(), repeat)
+    print('[twill-fork: pid %d : executing %d times]' % (os.getpid(), repeat))
 
     start_time = time.time()
 
@@ -112,8 +112,8 @@ else:                                   # is_parent
         # status != 0 indicates failure:
         
         if status != 0:
-            print '[twill-fork parent: process %d FAILED: exit status %d]' % (child_pid, status,)
-            print '[twill-fork parent: (not counting stats for this process)]'
+            print('[twill-fork parent: process %d FAILED: exit status %d]' % (child_pid, status,))
+            print('[twill-fork parent: (not counting stats for this process)]')
             failed = True
         else:
             # record statistics, otherwise
@@ -130,14 +130,14 @@ else:                                   # is_parent
     # summarize
     #
 
-    print '\n---'
-    print 'n processes: %d' % (options.processes,)
-    print 'total executed: %d' % (total_exec,)
-    print 'total time to execute: %f' % (total_time,)
+    print('\n---')
+    print('n processes: %d' % (options.processes,))
+    print('total executed: %d' % (total_exec,))
+    print('total time to execute: %f' % (total_time,))
     if total_exec:
-        print 'average time: %f' % (total_time / total_exec,)
+        print('average time: %f' % (total_time / total_exec,))
     else:
-        print '(nothing completed, no average!)'
+        print('(nothing completed, no average!)')
 
 if failed:
     sys.exit(-1)

@@ -3,10 +3,10 @@ Support functionality for using twill in unit tests.
 """
 
 import sys, os, time
-from cStringIO import StringIO
+from io import StringIO
 
 # package import
-from parse import execute_file
+from .parse import execute_file
 
 class TestInfo:
     """

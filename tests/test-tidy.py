@@ -6,7 +6,7 @@ that the function runs without error...
 
 (Yes, I know that some of the setup/teardown code is stupid.  Sorry.)
 """
-import twilltestlib
+from . import twilltestlib
 from twill import utils
 from twill.commands import config
 

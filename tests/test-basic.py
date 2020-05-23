@@ -5,7 +5,7 @@ This should really be broken out into multiple sub scripts...
 """
 
 import os
-import twilltestlib
+from . import twilltestlib
 
 def setup_module():
     global url

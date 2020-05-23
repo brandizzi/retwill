@@ -3,9 +3,9 @@ Test the unit-test support framework using (naturally) a unit test...
 """
 
 import os
-import twilltestlib
+from . import twilltestlib
 import twill.unit
-import twilltestserver
+from . import twilltestserver
 from quixote.server.simple_server import run as quixote_run
 
 def test():

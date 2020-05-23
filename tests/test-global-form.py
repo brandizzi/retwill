@@ -1,4 +1,5 @@
-import twill, twilltestlib
+import twill
+from . import twilltestlib
 
 def test():
     url = twilltestlib.get_url()

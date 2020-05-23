@@ -3,7 +3,7 @@
 parser) can parse.
 """
 
-import twilltestlib
+from . import twilltestlib
 from twill import commands
 
 def setup_module():

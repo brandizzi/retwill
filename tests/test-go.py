@@ -1,10 +1,10 @@
 import sys, os
-import twilltestlib
+from . import twilltestlib
 from twill import commands
 from twill import namespaces
 from twill.errors import TwillAssertionError, TwillNameError
 import twill.parse
-from cStringIO import StringIO
+from io import StringIO
 
 def setup_module():
     global _save_print
@@ -67,7 +67,7 @@ def test():
         try:
             twill.parse.execute_file('test-go-fail2.twill', initial_url=url)
             assert 0
-        except TwillNameError, e:
+        except TwillNameError as e:
             pass
     finally:
         sys.stderr = old_err

@@ -62,12 +62,12 @@ def _require_post_load_hook(action, *args, **kwargs):
         ####
             
         elif what == 'links_ok':
-            from check_links import check_links
+            from .check_links import check_links
             
             ignore_always = True
             logger.debug('REQUIRING functioning links')
             logger.debug('(already visited:)')
-            logger.debug("\n\t".join(links_visited.keys()))
+            logger.debug("\n\t".join(list(links_visited.keys())))
                 
             try:
                 check_links(visited=links_visited)

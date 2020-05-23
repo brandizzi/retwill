@@ -1,6 +1,6 @@
-import twilltestlib
+from . import twilltestlib
 import mechanize
-from cStringIO import StringIO
+from io import StringIO
 
 def test_form_parse():
     content = "&rsaquo;"

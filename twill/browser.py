@@ -13,9 +13,9 @@ from mechanize import BrowserStateError, LinkNotFoundError
 from wsgi_intercept import mechanize_intercept
 
 # twill package imports
-from utils import print_form, ConfigurableParsingFactory, \
+from .utils import print_form, \
      ResultWrapper, unique_match, HistoryStack
-from errors import TwillException
+from .errors import TwillException
 
 logger = logconfig.logger
 
@@ -35,9 +35,9 @@ class TwillBrowser(object):
         #
         # create special link/forms parsing code to run tidy on HTML first.
         #
-        
-        factory = ConfigurableParsingFactory()
 
+        factory = ConfigurableParsingFactory()
+	
         #
         # Create the mechanize browser.
         #
@@ -213,7 +213,7 @@ class TwillBrowser(object):
         """
         Set the agent string to the given value.
         """
-        for i in xrange(len(self._browser.addheaders)):
+        for i in range(len(self._browser.addheaders)):
             if self._browser.addheaders[i][0] == "User-agent":
                 del self._browser.addheaders[i]
                 break
@@ -518,7 +518,7 @@ There are %d cookie(s) in the cookiejar.
         func = getattr(self._browser, func_name)
         try:
             r = func(*args, **kwargs)
-        except mechanize.HTTPError, e:
+        except mechanize.HTTPError as e:
             r = e
 
         # seek back to 0 if a seek() function is present.
@@ -536,7 +536,7 @@ There are %d cookie(s) in the cookiejar.
 infinite refresh loop discovered; aborting.
 Try turning off acknowledge_equiv_refresh...""")
 
-        self.result = ResultWrapper(code, r.geturl(), r.read())
+        self.result = ResultWrapper(code, r.geturl(), str(r.read(), 'utf-8'))
 
         #
         # Now call all of the post load hooks with the function name.

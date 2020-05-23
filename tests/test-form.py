@@ -1,4 +1,4 @@
-import twilltestlib
+from . import twilltestlib
 import twill
 import mechanize
 from twill import namespaces, commands

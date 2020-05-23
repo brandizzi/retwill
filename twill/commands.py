@@ -8,6 +8,7 @@ from twill import logconfig
 import mechanize
 from mechanize._headersutil import is_html
 from lxml.html.soupparser import fromstring
+import collections
 
 logger = logconfig.logger
 
@@ -67,12 +68,12 @@ __all__ = ['get_browser',
 
 import re, getpass, time
 
-from browser import TwillBrowser
+from .browser import TwillBrowser
 
-from errors import TwillException, TwillAssertionError
-import utils
-from utils import set_form_control_value, run_tidy
-from namespaces import get_twill_glocals
+from .errors import TwillException, TwillAssertionError
+from . import utils
+from .utils import set_form_control_value, run_tidy
+from .namespaces import get_twill_glocals
         
 browser = TwillBrowser()
 
@@ -253,7 +254,7 @@ def find(what, flags=''):
         if not elements:
             raise TwillAssertionError("no element to path '%s'" % (what,))
 
-        local_dict['__match__'] = unicode(elements[0])
+        local_dict['__match__'] = str(elements[0])
 
 def notfind(what, flags=''):
     """
@@ -294,7 +295,7 @@ def echo(*strs):
     
     Echo the arguments to the screen.
     """
-    strs = map(str, strs)
+    strs = list(map(str, strs))
     s = " ".join(strs)
     print(s)
 
@@ -503,7 +504,7 @@ def extend_with(module_name):
     """
     global_dict, local_dict = get_twill_glocals()
 
-    exec "from %s import *" % (module_name,) in global_dict
+    exec("from %s import *" % (module_name,), global_dict)
 
     ### now add the commands into the commands available for the shell,
     ### and print out some nice stuff about what the extension module does.
@@ -517,7 +518,7 @@ def extend_with(module_name):
     
     fnlist = getattr(mod, '__all__', None)
     if fnlist is None:
-        fnlist = [ fn for fn in dir(mod) if callable(getattr(mod, fn)) ]
+        fnlist = [ fn for fn in dir(mod) if isinstance(getattr(mod, fn), collections.Callable) ]
 
     for command in fnlist:
         fn = getattr(mod, command)
@@ -547,7 +548,7 @@ def getinput(prompt):
     """
     _, local_dict = get_twill_glocals()
 
-    inp = raw_input(prompt)
+    inp = input(prompt)
 
     local_dict['__input__'] = inp
     return inp
@@ -635,7 +636,7 @@ def debug(what, level):
        * commands (any level >= 1), to display the commands being executed.
        * equiv-refresh (any level >= 1) to display HTTP-EQUIV refresh handling.
     """
-    import parse
+    from . import parse
 
     try:
         level = int(level)
@@ -674,7 +675,7 @@ def run(cmd):
     # execute command.
     global_dict, local_dict = get_twill_glocals()
     
-    import commands
+    from . import commands
 
     # set __url__
     local_dict['__cmd__'] = cmd
@@ -687,7 +688,7 @@ def runfile(*files):
     >> runfile <file1> [ <file2> ... ]
 
     """
-    import parse
+    from . import parse
     global_dict, local_dict = get_twill_glocals()
 
     for f in files:
@@ -794,7 +795,7 @@ def show_extra_headers():
         print('The following HTTP headers are added to each request:')
     
         for k, v in l:
-            print('  "%s" = "%s"' % (k, v,))
+            print(('  "%s" = "%s"' % (k, v,)))
             
         print()
     else:
@@ -843,10 +844,10 @@ def config(key=None, value=None):
     Deprecated:
      * 'allow_parse_errors' has been removed.
     """
-    import utils
+    from . import utils
     
     if key is None:
-        keys = _options.keys()
+        keys = list(_options.keys())
         keys.sort()
 
         logger.info('current configuration:')
@@ -857,7 +858,7 @@ def config(key=None, value=None):
         v = _options.get(key)
         if v is None:
             logger.error('*** no such configuration key %s', key)
-            logger.error('valid keys are:', ";".join(_options.keys()))
+            logger.error('valid keys are:', ";".join(list(_options.keys())))
             raise TwillException('no such configuration key: %s' % (key,))
         elif value is None:
             logger.info('')

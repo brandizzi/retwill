@@ -5,7 +5,7 @@ Apart from various simple utility functions, twill's robust parsing
 code is implemented in the ConfigurableParsingFactory class.
 """
 
-from cStringIO import StringIO
+from io import StringIO
 import os
 import base64
 
@@ -258,7 +258,7 @@ def run_tidy(html):
     """
     global _tidy_cmd, _tidy_exists
 
-    from commands import _options
+    from .commands import _options
     require_tidy = _options.get('require_tidy')
 
     if not _tidy_exists:
@@ -364,7 +364,7 @@ class ConfigurableParsingFactory(mechanize.Factory):
             if new_html:
                 self._html = new_html
 
-        return mechanize.make_response(self._html, response._headers.items(),
+        return mechanize.make_response(self._html, list(response._headers.items()),
                                        response._url, response.code,
                                        response.msg)
                                        
@@ -408,7 +408,7 @@ class FunctioningHTTPRefreshProcessor(HTTPRefreshProcessor):
         
         code, msg, hdrs = response.code, response.msg, response.info()
 
-        if code == 200 and hdrs.has_key("refresh") and do_refresh:
+        if code == 200 and "refresh" in hdrs and do_refresh:
             refresh = hdrs.getheaders("refresh")[0]
 
             logger.debug("equiv-refresh DEBUG: code 200, hdrs has 'refresh'")

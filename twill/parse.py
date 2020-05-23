@@ -3,16 +3,16 @@ Code parsing and evaluation for the twill mini-language.
 """
 
 import sys
-from cStringIO import StringIO
+from io import StringIO
 from twill import logconfig
 
-from errors import TwillAssertionError, TwillNameError
+from .errors import TwillAssertionError, TwillNameError
 from pyparsing import OneOrMore, Word, printables, quotedString, Optional, \
      alphas, alphanums, ParseException, ZeroOrMore, restOfLine, Combine, \
      Literal, Group, removeQuotes, CharsNotIn
 
 import twill.commands as commands
-import namespaces
+from . import namespaces
 import re
 
 logger = logconfig.logger
@@ -84,7 +84,7 @@ def process_args(args, globals_dict, locals_dict):
 
             logger.info('*** VAL IS %s FOR %s', val, arg)
             
-            if isinstance(val, basestring):
+            if isinstance(val, str):
                 newargs.append(val)
             else:
                 newargs.extend(val)
@@ -161,7 +161,7 @@ def execute_string(buf, **kw):
     fp = StringIO(buf)
     
     kw['source'] = ['<string buffer>']
-    if not kw.has_key('no_reset'):
+    if 'no_reset' not in kw:
        kw['no_reset'] = True
     
     _execute_script(fp, **kw)
@@ -226,7 +226,7 @@ def _execute_script(inp, **kw):
             except SystemExit:
                 # abort script execution, if a SystemExit is raised.
                 return
-            except TwillAssertionError, e:
+            except TwillAssertionError as e:
                 logger.error('''\
 Oops!  Twill assertion error on line %d of '%s' while executing
 
@@ -236,7 +236,7 @@ Oops!  Twill assertion error on line %d of '%s' while executing
 ''' , n, sourceinfo, line.strip(), e)
                 if not catch_errors:
                     raise
-            except Exception, e:
+            except Exception as e:
                 logger.error('''\
 EXCEPTION raised at line %d of '%s'
 

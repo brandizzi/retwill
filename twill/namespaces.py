@@ -11,7 +11,7 @@ def init_global_dict():
     This must be done after all the other modules are loaded, so that all
     of the commands are already defined.
     """
-    exec "from twill.commands import *" in global_dict
+    exec("from twill.commands import *", global_dict)
     import twill.commands
     command_list = twill.commands.__all__
     

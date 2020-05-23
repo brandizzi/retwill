@@ -8,10 +8,10 @@ except ImportError:
 pkg_resources.require('quixote>=2.3')
 
 from quixote.server.simple_server import run
-from cStringIO import StringIO
+from io import StringIO
 import os
 import socket
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 _server_url = None
 
@@ -21,7 +21,7 @@ def get_url():
     return _server_url
 
 testdir = os.path.dirname(__file__)
-print 'testdir is:', testdir
+print(('testdir is:', testdir))
 sys.path.insert(0, os.path.abspath(os.path.join(testdir, '..')))
 
 import twill
@@ -91,7 +91,7 @@ def run_server(create_fn, PORT=None):
 
     outfd = tempfile.mkstemp('twilltst')[0]
 	
-    print 'STARTING:', sys.executable, 'tests/twilltestserver.py', os.getcwd()
+    print('STARTING:', sys.executable, 'tests/twilltestserver.py', os.getcwd())
     process = subprocess.Popen([sys.executable, '-u', 'twilltestserver.py'],
                                stderr=subprocess.STDOUT,
                                stdout=outfd)
@@ -107,7 +107,7 @@ def kill_server():
     global _server_url
     if _server_url != None:
        try:
-          fp = urllib.urlopen('%sexit' % (_server_url,))
+          fp = urllib.request.urlopen('%sexit' % (_server_url,))
        except:
           pass
 

@@ -56,13 +56,13 @@ def test_intercept():
 
     twill.add_wsgi_intercept('localhost', 80, lambda: wsgi_lint(simple_app))
     assert not _app_was_hit
-    print 'go'
+    print('go')
     twill.commands.go('http://localhost:80/')
     twill.commands.show()
-    print 'find'
+    print('find')
     twill.commands.find("WSGI intercept successful")
     assert _app_was_hit
-    print 'remove'
+    print('remove')
     twill.remove_wsgi_intercept('localhost', 80)
 
 def test_wrapper_intercept():
@@ -81,12 +81,12 @@ def test_wrapper_intercept():
 
     twill.add_wsgi_intercept('localhost', 80, lambda: wsgi_lint(wrap_app))
     assert not _app_was_hit
-    print 'go'
+    print('go')
     twill.commands.go('http://localhost:80/')
-    print 'find'
+    print('find')
     twill.commands.find("WSGI intercept successful")
     assert _app_was_hit
-    print 'remove'
+    print('remove')
     twill.remove_wsgi_intercept('localhost', 80)
 
 ####
@@ -108,16 +108,16 @@ class iterator_app:
         self._iter = iter(self.content)
         return self
 
-    def next(self):
-        return self._iter.next()
+    def __next__(self):
+        return next(self._iter)
 
 def test_iter_stuff():
     twill.add_wsgi_intercept('localhost', 80, iterator_app)
-    print 'go'
+    print('go')
     twill.commands.go('http://localhost:80/')
-    print 'find'
+    print('find')
     twill.commands.show()
     twill.commands.find("Hello, world")
     twill.commands.notfind("Hello, worldHello, world")
-    print 'remove'
+    print('remove')
     twill.remove_wsgi_intercept('localhost', 80)

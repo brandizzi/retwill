@@ -3,11 +3,11 @@ Test a boatload of miscellaneous functionality.
 """
 
 import sys
-import twilltestlib
 import twill, twill.browser, twill.commands
-from cStringIO import StringIO
+from io import StringIO
 from twill.errors import TwillAssertionError
-import urllib2
+import urllib.request, urllib.error, urllib.parse
+from . import twilltestlib
 
 def setup_module():
     pass
@@ -93,7 +93,7 @@ def test():
     
     twill.commands.config('require_tidy', "on")
 
-    twill.commands.run("print 'hello'")
+    twill.commands.run("print('hello')")
 
 def teardown_module():
     pass

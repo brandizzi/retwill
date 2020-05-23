@@ -9,7 +9,7 @@ import cmd
 import os
 import traceback
 from twill import commands, parse, __version__, logconfig, config
-import namespaces
+from . import namespaces
 
 logger = logconfig.logger
 
@@ -33,7 +33,7 @@ def make_cmd_fn(cmd):
             try:
                 args = parse.arguments.parseString(rest_of_line)[0]
                 args = parse.process_args(args, global_dict,local_dict)
-            except Exception, e:
+            except Exception as e:
                 logger.error('INPUT ERROR: %s\n', str(e))
                 return
 
@@ -42,7 +42,7 @@ def make_cmd_fn(cmd):
                                   "<shell>")
         except SystemExit:
             raise
-        except Exception, e:
+        except Exception as e:
             logger.error(str(e))
 
     return do_cmd
@@ -97,7 +97,7 @@ class TwillCommandLoop(Singleton, cmd.Cmd):
     by the metaclass.
     """
     def init(self, **kw):
-        if kw.has_key('stdin'):
+        if 'stdin' in kw:
             cmd.Cmd.__init__(self, None, stdin=kw['stdin'])
             self.use_rawinput = False
         else:
@@ -229,7 +229,7 @@ class TwillCommandLoop(Singleton, cmd.Cmd):
                                   "<shell>")
         except SystemExit:
             raise
-        except Exception, e:
+        except Exception as e:
             logger.error('%s\n' % (str(e),))
             if self.fail_on_unknown:
                 raise
@@ -276,7 +276,7 @@ def main():
     from twill import TwillCommandLoop, execute_file, __version__
     from twill.utils import gather_filenames
     from optparse import OptionParser
-    from cStringIO import StringIO
+    from io import StringIO
 
     ###
     # make sure that the current working directory is in the path.  does this
@@ -344,7 +344,7 @@ def main():
     if options.loglevel:
         if options.loglevel not in logconfig.loglevels:
             sys.exit("valid log levels are " + 
-                    ", ".join(logconfig.loglevels.keys()))
+                    ", ".join(list(logconfig.loglevels.keys())))
         logconfig.logger.setLevel(logconfig.loglevels[options.loglevel])
 
     if options.logfile:
@@ -398,7 +398,7 @@ def main():
                              initial_url=options.url,
                              never_fail=options.never_fail)
                 success.append(filename)
-            except Exception, e:
+            except Exception as e:
                 if options.fail:
 #                    import pdb
 #                    _, _, tb = sys.exc_info()

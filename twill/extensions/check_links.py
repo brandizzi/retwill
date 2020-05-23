@@ -100,12 +100,12 @@ def check_links(pattern = '', visited={}):
     #
 
     failed = []
-    for link in collected_urls.values():
+    for link in list(collected_urls.values()):
         went = False
         try:
             logger.debug("Trying %s", link.absolute_url)
                 
-            if not visited.has_key(link.absolute_url):
+            if link.absolute_url not in visited:
                 went = True
                 browser.follow_link(link)
                 

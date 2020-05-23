@@ -127,7 +127,7 @@ class TwillTest(Directory):
         s = ""
 
         request = get_request()
-        for k, v in request.form.items():
+        for k, v in list(request.form.items()):
             s += "k: '''%s''' : '''%s'''<p>\n" % (k, v,)
 
         return s
@@ -136,7 +136,7 @@ class TwillTest(Directory):
         s = ""
 
         request = get_request()
-        for k, v in request.environ.items():
+        for k, v in list(request.environ.items()):
             s += "k: '''%s''' : '''%s'''<p>\n" % (k, v,)
 
         return s
@@ -345,7 +345,7 @@ hello, world.
     def testformaction(self):
         request = get_request()
 
-        keys = [ k for k in request.form.keys() if request.form[k] ]
+        keys = [ k for k in list(request.form.keys()) if request.form[k] ]
         keys.sort()
         
         return "==" + " AND ".join(keys) + "=="
@@ -357,10 +357,10 @@ hello, world.
         if not request.form:
             s = "NO FORM"
             
-        if request.form and request.form.has_key('selecttest'):
+        if request.form and 'selecttest' in request.form:
             vals = request.form['selecttest']
 
-            if isinstance(vals, basestring):
+            if isinstance(vals, str):
                 vals = [vals,]
 
             s += "SELECTTEST: ==%s==<p>" % " AND ".join(vals,)
@@ -402,10 +402,10 @@ hello, world.
         request = get_request()
 
         s = ""
-        if request.form and request.form.has_key('checkboxtest'):
+        if request.form and 'checkboxtest' in request.form:
             val = request.form['checkboxtest']
 
-            if not isinstance(val, basestring):
+            if not isinstance(val, str):
                 val = val[0]
 
             s += "CHECKBOXTEST: ==%s==<p>" % val
@@ -425,10 +425,10 @@ hello, world.
         request = get_request()
 
         s = ""
-        if request.form and request.form.has_key('checkboxtest'):
+        if request.form and 'checkboxtest' in request.form:
             val = request.form['checkboxtest']
 
-            if not isinstance(val, basestring):
+            if not isinstance(val, str):
                 val = ','.join(val)
 
             s += "CHECKBOXTEST: ==%s==<p>" % val
@@ -447,10 +447,10 @@ hello, world.
         request = get_request()
 
         s = ""
-        if request.form and request.form.has_key('checkboxtest'):
+        if request.form and 'checkboxtest' in request.form:
             val = request.form['checkboxtest']
 
-            if not isinstance(val, basestring):
+            if not isinstance(val, str):
                 val = val[0]
 
             s += "CHECKBOXTEST: ==%s==<p>" % val
@@ -496,7 +496,7 @@ hello, world.
 
     def echo(self):
         request = get_request()
-        if request.form and request.form.has_key('q'):
+        if request.form and 'q' in request.form:
             return request.form['q']
         return ""
 
@@ -528,9 +528,9 @@ class HttpAuthRestricted(AccessControlled, Directory):
     def _q_access(self):
         r = get_request()
 
-        print '======================== NEW REQUEST'
-        for k, v in r.environ.items():
-            print '***', k, ':', v
+        print('======================== NEW REQUEST')
+        for k, v in list(r.environ.items()):
+            print('***', k, ':', v)
 
         ha = r.get_environ('HTTP_AUTHORIZATION', None)
         if ha:
@@ -550,7 +550,7 @@ class HttpAuthRestricted(AccessControlled, Directory):
 if __name__ == '__main__':
     from quixote.server.simple_server import run
     port = int(os.environ.get('TWILL_TEST_PORT', '8080'))
-    print 'starting twilltestserver on port %d.' % (port,)
+    print('starting twilltestserver on port %d.' % (port,))
     try:
         run(create_publisher, port=port)
     except KeyboardInterrupt:

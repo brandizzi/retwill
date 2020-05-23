@@ -1,4 +1,4 @@
-import twilltestlib
+from . import twilltestlib
 
 import pkg_resources
 try:
